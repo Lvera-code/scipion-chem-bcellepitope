@@ -21,6 +21,7 @@ from pathlib import Path
 import pandas as pd
 from pwchem.objects import Sequence, SequenceROI, SetOfSequenceROIs
 from pwem.protocols import EMProtocol
+from pyworkflow.object import Float
 from pyworkflow.protocol import params
 
 from .. import Plugin as bcellPlugin
@@ -106,6 +107,7 @@ class ProtBCellEpitopeEpiDopePredict(EMProtocol):
             roiSeq = Sequence(sequence=row.sequence, name=roiId, id=roiId,
                                description='EpiDope epitope')
             seqROI = SequenceROI(sequence=inputSeq, seqROI=roiSeq, roiIdx=row.start, roiIdx2=row.end)
+            seqROI._meanScore = Float(row.mean_score)
             outROIs.append(seqROI)
 
         if len(outROIs) > 0:
