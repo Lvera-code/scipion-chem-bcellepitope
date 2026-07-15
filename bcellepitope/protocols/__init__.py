@@ -1,0 +1,1 @@
+from .protocol_bepipred_predict import ProtBCellEpitopeBepiPredPredict
