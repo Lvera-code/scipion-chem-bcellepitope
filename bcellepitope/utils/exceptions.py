@@ -12,3 +12,8 @@ class BCellEpitopeExecutionError(Exception):
 class BepiPredExecutionError(BCellEpitopeExecutionError):
     """Fallo al ejecutar BepiPred-3.0 localmente (instalacion ausente, subprocess
     fallido, timeout o salida en un formato inesperado)."""
+
+
+class EpidopeExecutionError(BCellEpitopeExecutionError):
+    """Fallo al ejecutar EpiDope localmente (instalacion ausente, subprocess
+    fallido, timeout o salida en un formato inesperado)."""

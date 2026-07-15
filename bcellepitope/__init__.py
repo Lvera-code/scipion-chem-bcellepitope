@@ -13,7 +13,10 @@ import os
 
 from pwchem import Plugin as pwchemPlugin
 
-from .constants import BEPIPRED_DIC, NOINSTALL_WARNING
+from .constants import (
+    BEPIPRED_DIC, NOINSTALL_WARNING,
+    EPIDOPE_DIC, EPIDOPE_NOINSTALL_WARNING,
+)
 
 
 class Plugin(pwchemPlugin):
@@ -22,14 +25,23 @@ class Plugin(pwchemPlugin):
     def _defineVariables(cls):
         cls._defineVar(BEPIPRED_DIC['home'], '')
         cls._defineVar(BEPIPRED_DIC['python_bin'], '')
+        cls._defineVar(EPIDOPE_DIC['home'], '')
 
     @classmethod
     def defineBinaries(cls, env):
-        """No-op: BepiPred-3.0 no se puede redistribuir ni instalar automaticamente."""
+        """No-op: ni BepiPred-3.0 ni EpiDope se instalan automaticamente (ver
+        validateBepipredInstallation/validateEpidopeInstallation)."""
         pass
 
     @classmethod
     def validateInstallation(cls):
+        """Agregado de todos los requisitos del plugin (llamado por el gestor de
+        plugins de Scipion). Los protocolos individuales validan solo el motor
+        que necesitan via validateBepipredInstallation/validateEpidopeInstallation."""
+        return cls.validateBepipredInstallation() + cls.validateEpidopeInstallation()
+
+    @classmethod
+    def validateBepipredInstallation(cls):
         """Comprueba que BEPIPRED_HOME/BEPIPRED_PYTHON_BIN esten configurados y
         que el CLI de BepiPred-3.0 exista, devolviendo una lista de errores
         accionables (lista vacia = instalacion correcta)."""
@@ -53,6 +65,20 @@ class Plugin(pwchemPlugin):
             errors.append(NOINSTALL_WARNING)
         return errors
 
+    @classmethod
+    def validateEpidopeInstallation(cls):
+        """Comprueba que EPIDOPE_HOME este configurado y que el binario
+        'epidope' exista dentro de ese prefijo de entorno conda."""
+        errors = []
+
+        epidope_bin = cls.getEpidopeBin()
+        if not epidope_bin or not os.path.isfile(epidope_bin):
+            errors.append(f"No se encontro el binario de EpiDope en '{epidope_bin}'.")
+
+        if errors:
+            errors.append(EPIDOPE_NOINSTALL_WARNING)
+        return errors
+
     # ---------------------------------- Utils -----------------------------------
 
     @classmethod
@@ -66,3 +92,14 @@ class Plugin(pwchemPlugin):
     @classmethod
     def getBepipredCliScript(cls):
         return os.path.join(cls.getBepipredHome(), BEPIPRED_DIC['cli_script'])
+
+    @classmethod
+    def getEpidopeHome(cls):
+        return cls.getVar(EPIDOPE_DIC['home'])
+
+    @classmethod
+    def getEpidopeBin(cls):
+        home = cls.getEpidopeHome()
+        if not home:
+            return None
+        return os.path.join(home, 'bin', EPIDOPE_DIC['binary'])

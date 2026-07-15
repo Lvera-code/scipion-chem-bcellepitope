@@ -149,7 +149,7 @@ class ProtBCellEpitopeBepiPredPredict(EMProtocol):
     # ---------------------------------- Validation -------------------------------
 
     def _validate(self):
-        return bcellPlugin.validateInstallation()
+        return bcellPlugin.validateBepipredInstallation()
 
     def _summary(self):
         summary = []
