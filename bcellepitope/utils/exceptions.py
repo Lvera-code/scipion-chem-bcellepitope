@@ -17,3 +17,8 @@ class BepiPredExecutionError(BCellEpitopeExecutionError):
 class EpidopeExecutionError(BCellEpitopeExecutionError):
     """Fallo al ejecutar EpiDope localmente (instalacion ausente, subprocess
     fallido, timeout o salida en un formato inesperado)."""
+
+
+class BlastExecutionError(BCellEpitopeExecutionError):
+    """Fallo al ejecutar el filtro de tolerancia inmunologica (BLASTp local):
+    binario ausente, base de datos no indexada, o subprocess fallido/timeout."""

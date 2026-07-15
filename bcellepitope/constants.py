@@ -48,3 +48,23 @@ EPIDOPE_NOINSTALL_WARNING = (
     '(NO instales los paquetes a mano) y configura EPIDOPE_HOME apuntando al '
     'prefijo de ese entorno. Ver README.rst.'
 )
+
+# BLASTp (NCBI BLAST+): filtro de tolerancia inmunologica contra el proteoma
+# humano. A diferencia de BepiPred/EpiDope, no requiere un entorno Python
+# dedicado (binario nativo, sin dependencias de version fragiles): basta con
+# que 'blastp' este resuelto (por defecto se asume en el PATH, igual que en
+# blast_engine.py::_check_blast_environment) y con una base de datos local ya
+# indexada con 'makeblastdb' (BLAST_HUMAN_DB, prefijo sin extension).
+BLAST_DIC = {
+    'name': 'BLAST',
+    'bin': 'BLASTP_BIN',
+    'db': 'BLAST_HUMAN_DB',
+}
+
+BLAST_NOINSTALL_WARNING = (
+    'blastp no esta disponible o la base de datos del proteoma humano no existe. '
+    'Instala NCBI BLAST+ e indexa el proteoma humano con makeblastdb, luego '
+    'configura BLASTP_BIN (ruta al binario, por defecto "blastp" resuelto por '
+    'PATH) y BLAST_HUMAN_DB (prefijo de la base de datos, sin extension) en '
+    'scipion.conf. Ver README.rst.'
+)

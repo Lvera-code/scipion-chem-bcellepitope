@@ -10,12 +10,14 @@ numpy==1.20.2- incompatibles con el entorno principal de Scipion).
 """
 
 import os
+import shutil
 
 from pwchem import Plugin as pwchemPlugin
 
 from .constants import (
     BEPIPRED_DIC, NOINSTALL_WARNING,
     EPIDOPE_DIC, EPIDOPE_NOINSTALL_WARNING,
+    BLAST_DIC, BLAST_NOINSTALL_WARNING,
 )
 
 
@@ -26,6 +28,8 @@ class Plugin(pwchemPlugin):
         cls._defineVar(BEPIPRED_DIC['home'], '')
         cls._defineVar(BEPIPRED_DIC['python_bin'], '')
         cls._defineVar(EPIDOPE_DIC['home'], '')
+        cls._defineVar(BLAST_DIC['bin'], 'blastp')
+        cls._defineVar(BLAST_DIC['db'], '')
 
     @classmethod
     def defineBinaries(cls, env):
@@ -37,8 +41,12 @@ class Plugin(pwchemPlugin):
     def validateInstallation(cls):
         """Agregado de todos los requisitos del plugin (llamado por el gestor de
         plugins de Scipion). Los protocolos individuales validan solo el motor
-        que necesitan via validateBepipredInstallation/validateEpidopeInstallation."""
-        return cls.validateBepipredInstallation() + cls.validateEpidopeInstallation()
+        que necesitan via validate<Motor>Installation."""
+        return (
+            cls.validateBepipredInstallation()
+            + cls.validateEpidopeInstallation()
+            + cls.validateBlastInstallation()
+        )
 
     @classmethod
     def validateBepipredInstallation(cls):
@@ -79,6 +87,28 @@ class Plugin(pwchemPlugin):
             errors.append(EPIDOPE_NOINSTALL_WARNING)
         return errors
 
+    @classmethod
+    def validateBlastInstallation(cls):
+        """Comprueba que 'blastp' este resuelto (PATH o ruta explicita) y que
+        la base de datos local del proteoma humano exista (mismo criterio que
+        blast_engine.py::_check_blast_environment: busca el fichero '.phr')."""
+        errors = []
+
+        blastp_bin = cls.getBlastpBin()
+        if shutil.which(blastp_bin) is None:
+            errors.append(f"El binario 'blastp' no esta disponible ('{blastp_bin}').")
+
+        db_path = cls.getBlastHumanDb()
+        if not db_path or not os.path.isfile(f'{db_path}.phr'):
+            errors.append(
+                f"No se encontro la base de datos BLAST del proteoma humano en '{db_path}' "
+                f"(falta '{db_path}.phr')."
+            )
+
+        if errors:
+            errors.append(BLAST_NOINSTALL_WARNING)
+        return errors
+
     # ---------------------------------- Utils -----------------------------------
 
     @classmethod
@@ -103,3 +133,11 @@ class Plugin(pwchemPlugin):
         if not home:
             return None
         return os.path.join(home, 'bin', EPIDOPE_DIC['binary'])
+
+    @classmethod
+    def getBlastpBin(cls):
+        return cls.getVar(BLAST_DIC['bin'])
+
+    @classmethod
+    def getBlastHumanDb(cls):
+        return cls.getVar(BLAST_DIC['db'])
