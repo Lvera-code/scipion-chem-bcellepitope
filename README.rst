@@ -21,8 +21,10 @@ separately (see below) and pointed to via ``scipion.conf``.
 Download BepiPred-3.0
 ================================
 
-BepiPred-3.0 is **academic-use only** software (DTU Health Tech). Request it
-from:
+BepiPred-3.0 is **academic-use only** software (DTU Health Tech). Official page:
+https://services.healthtech.dtu.dk/services/BepiPred-3.0/
+
+Direct download request form (also linked from the official page above):
 https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=bepipred&version=3.0&packageversion=3.0b&platform=src
 
 The request form requires a valid **institutional/academic email address**
