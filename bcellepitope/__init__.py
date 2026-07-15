@@ -18,6 +18,7 @@ from .constants import (
     BEPIPRED_DIC, NOINSTALL_WARNING,
     EPIDOPE_DIC, EPIDOPE_NOINSTALL_WARNING,
     BLAST_DIC, BLAST_NOINSTALL_WARNING,
+    NETMHCIIPAN_DIC, NETMHCIIPAN_NOINSTALL_WARNING,
 )
 
 
@@ -30,6 +31,8 @@ class Plugin(pwchemPlugin):
         cls._defineVar(EPIDOPE_DIC['home'], '')
         cls._defineVar(BLAST_DIC['bin'], 'blastp')
         cls._defineVar(BLAST_DIC['db'], '')
+        cls._defineVar(NETMHCIIPAN_DIC['home'], '')
+        cls._defineVar(NETMHCIIPAN_DIC['binary'], 'netMHCIIpan')
 
     @classmethod
     def defineBinaries(cls, env):
@@ -46,6 +49,7 @@ class Plugin(pwchemPlugin):
             cls.validateBepipredInstallation()
             + cls.validateEpidopeInstallation()
             + cls.validateBlastInstallation()
+            + cls.validateNetMHCIIpanInstallation()
         )
 
     @classmethod
@@ -109,6 +113,22 @@ class Plugin(pwchemPlugin):
             errors.append(BLAST_NOINSTALL_WARNING)
         return errors
 
+    @classmethod
+    def validateNetMHCIIpanInstallation(cls):
+        """Comprueba que el script local de NetMHCIIpan-4.3 exista y sea
+        ejecutable (mismo criterio que netmhciipan_engine.py::_resolve_binary)."""
+        errors = []
+
+        binary = cls.getNetMHCIIpanBinaryPath()
+        if not binary or not os.path.isfile(binary):
+            errors.append(f"No se encontro el script local de NetMHCIIpan-4.3 en '{binary}'.")
+        elif not os.access(binary, os.X_OK):
+            errors.append(f"El script '{binary}' no tiene permiso de ejecucion (chmod +x).")
+
+        if errors:
+            errors.append(NETMHCIIPAN_NOINSTALL_WARNING)
+        return errors
+
     # ---------------------------------- Utils -----------------------------------
 
     @classmethod
@@ -141,3 +161,14 @@ class Plugin(pwchemPlugin):
     @classmethod
     def getBlastHumanDb(cls):
         return cls.getVar(BLAST_DIC['db'])
+
+    @classmethod
+    def getNetMHCIIpanHome(cls):
+        return cls.getVar(NETMHCIIPAN_DIC['home'])
+
+    @classmethod
+    def getNetMHCIIpanBinaryPath(cls):
+        home = cls.getNetMHCIIpanHome()
+        if not home:
+            return None
+        return os.path.join(home, cls.getVar(NETMHCIIPAN_DIC['binary']))

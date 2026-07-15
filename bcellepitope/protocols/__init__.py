@@ -2,3 +2,4 @@ from .protocol_bepipred_predict import ProtBCellEpitopeBepiPredPredict
 from .protocol_epidope_predict import ProtBCellEpitopeEpiDopePredict
 from .protocol_consensus import ProtBCellEpitopeConsensus
 from .protocol_blast import ProtBCellEpitopeBlastFilter
+from .protocol_netmhciipan import ProtBCellEpitopeNetMHCIIpan

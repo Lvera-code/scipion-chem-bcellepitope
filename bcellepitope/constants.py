@@ -68,3 +68,23 @@ BLAST_NOINSTALL_WARNING = (
     'PATH) y BLAST_HUMAN_DB (prefijo de la base de datos, sin extension) en '
     'scipion.conf. Ver README.rst.'
 )
+
+# NetMHCIIpan-4.3: promiscuidad T-helper (MHC-II). Mismo patron de licencia
+# academica DTU Health Tech que BepiPred-3.0: descarga manual, sin
+# instalacion automatica.
+NETMHCIIPAN_DIC = {
+    'name': 'NetMHCIIpan',
+    'home': 'NETMHCIIPAN_HOME',
+    'binary': 'NETMHCIIPAN_BINARY_NAME',
+}
+
+NETMHCIIPAN_DOWNLOAD_URL = 'https://services.healthtech.dtu.dk/services/NetMHCIIpan-4.3/'
+
+NETMHCIIPAN_NOINSTALL_WARNING = (
+    'No se encontro la instalacion local de NetMHCIIpan-4.3. Por restricciones de '
+    f'licencia academica, DTU Health Tech no permite redistribuir el paquete: '
+    f'descargalo manualmente desde {NETMHCIIPAN_DOWNLOAD_URL} (requiere cuenta '
+    'academica), edita la linea NMHOME del script wrapper con la ruta absoluta de '
+    'instalacion (paso manual obligatorio segun el propio instructivo de DTU) y '
+    'configura NETMHCIIPAN_HOME en scipion.conf. Ver README.rst.'
+)

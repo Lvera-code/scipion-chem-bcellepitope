@@ -22,3 +22,9 @@ class EpidopeExecutionError(BCellEpitopeExecutionError):
 class BlastExecutionError(BCellEpitopeExecutionError):
     """Fallo al ejecutar el filtro de tolerancia inmunologica (BLASTp local):
     binario ausente, base de datos no indexada, o subprocess fallido/timeout."""
+
+
+class NetMHCIIpanExecutionError(BCellEpitopeExecutionError):
+    """Fallo al ejecutar NetMHCIIpan-4.3 localmente: instalacion ausente,
+    subprocess fallido/timeout, o el .xls de salida no se genero/no tiene el
+    formato esperado."""
