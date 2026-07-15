@@ -3,7 +3,7 @@ B-Cell Epitope Prediction scipion plugin
 ================================
 
 Scipion framework plugin wrapping the B-Cell-Epitope-Prediction pipeline
-(https://github.com/Lvera-code/B-Cell-Epitope-Prediction): local BepiPred-3.0
+(https://github.com/Lvera-code/BCell-Epitope-Prediction): local BepiPred-3.0
 and EpiDope antigenicity prediction, an annotated BepiPred/EpiDope consensus,
 a BLASTp immune tolerance filter, and NetMHCIIpan-4.3 T-helper promiscuity
 prediction.
