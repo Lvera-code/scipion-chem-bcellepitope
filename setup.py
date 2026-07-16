@@ -19,8 +19,8 @@ with open('requirements.txt') as f:
 
 setup(
     name='scipion-chem-bcellepitope',
-    version='0.1.0',
-    description='Scipion framework plugin for B-cell epitope prediction (BepiPred-3.0 + EpiDope + BLASTp + NetMHCIIpan)',
+    version='0.2.0',
+    description='DEPRECATED, see README.rst - protocols moved to scipion-chem-bepipred/-blast/-netmhciipan and scipion-chem',
     long_description=long_description,
     url='https://github.com/Lvera-code/scipion-chem-bcellepitope',
     author='Enzo Sierra',

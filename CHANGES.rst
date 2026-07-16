@@ -2,6 +2,12 @@
 CHANGES
 =========
 
+0.2.0
+=====
+- DEPRECATED: all protocols removed, split across scipion-chem-bepipred,
+  scipion-chem-blast, scipion-chem (EpiDope + consensus) and the new
+  scipion-chem-netmhciipan plugin. See README.rst.
+
 0.1.0
 =====
 - Initial release: BepiPred-3.0, EpiDope, BLASTp immune tolerance filter and
